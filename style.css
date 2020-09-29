@@ -1,0 +1,7 @@
+.cityButtons{
+    width: 200px;
+    display: table-cell;
+    padding: 5px;
+    vertical-align: middle;
+    margin: auto;
+}
