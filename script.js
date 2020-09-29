@@ -18,15 +18,33 @@ $(document).ready(function () {
         }).then(function (response) {
 
             console.log(response)
+
+            //city name
+            var cityTitle = $('<div>');
+            cityTitle.addClass('cityTitle');
+            cityTitle.text(response.name);
+            $('#todayWeather').append(cityTitle);
+
+            //temperature
             var tempKelvin = response.main.temp;
             var tempFahrenheit = (tempKelvin - 273.15) * 1.8 + 32;
-            var humidity = response.main.humidity;
+            tempFahrenheit = tempFahrenheit.toFixed();
+            var temperature = $('<div>');
+            temperature.addClass('tempDetails');
+            temperature.text('Temperature: '+tempFahrenheit + ' F°');
+            $('#todayWeather').append(temperature);
 
-            var temperature = $('<p>');
-            temperature.text(tempFahrenheit);
-            $('#todayWeather').append(temperature)
+            //humidity
+            var humidity = $('<div>');
+            humidity.addClass('tempDetails');
+            humidity.text('Humidity: '+response.main.humidity+'%');
+            $('#todayWeather').append(humidity);
 
-
+            //wind speed
+            var windSpeed = $('<div>');
+            windSpeed.addClass('tempDetails');
+            windSpeed.text('Wind Speed: '+response.wind.speed+' MPH');
+            $('#todayWeather').append(windSpeed);
         });
 
     }

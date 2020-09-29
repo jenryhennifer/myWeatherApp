@@ -5,3 +5,11 @@
     vertical-align: middle;
     margin: auto;
 }
+
+.cityTitle{
+    font-size: 40px;
+}
+
+.tempDetails{
+    margin: 5px;
+}
