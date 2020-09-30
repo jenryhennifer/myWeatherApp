@@ -1,27 +1,22 @@
 
+//waiting for document to load
 $(document).ready(function () {
 
-
-
-
+    //gives current date
     let currentDay = moment().format('MMMM Do YYYY');
 
 
+    //function for all details to display weather
     function displayWeather() {
         $('#todayWeather').empty(); //clears information every time a new city is loaded
         $('.card-body').empty();
         $('#weekWeather').empty();
 
-
-        // var chosenCity = $('#cityName').val();
+        //api URLs
         var chosenCity = $(this).attr('data-name')
         var weatherURL = "https://api.openweathermap.org/data/2.5/weather?q=" + chosenCity + "&appid=2b648f953cd9f9358d1ca478c103fe4c"
         var fiveDayForcast = 'https://api.openweathermap.org/data/2.5/forecast?q=' + chosenCity + '&appid=2b648f953cd9f9358d1ca478c103fe4c'
-        // var UVindex = 'https://api.openweathermap.org/data/2.5/uvi?lat=' + latitude + '&lon=' + longitude + '&appid=&appid=2b648f953cd9f9358d1ca478c103fe4c'
 
-
-        // var latitude;
-        // var longitude;
 
         $.ajax({
             url: weatherURL,
@@ -30,9 +25,6 @@ $(document).ready(function () {
 
         }).then(function (response) {
 
-            // console.log(response);
-            // latitude = response.coord.lat;
-            // longitude = response.coord.lon;
 
             //city name
             var cityTitle = $('<div>').addClass('cityTitle pl-3');
@@ -103,7 +95,6 @@ $(document).ready(function () {
 
         });
         $('main').css('display', 'block');
-
     }
 
 
@@ -134,6 +125,7 @@ $(document).ready(function () {
         displayCityButtons();
 
     })
+    //displays weather on click for both search button and the city buttons
     $('#citySearchButton').on('click', displayWeather);
     $(document).on('click', '.cityButtons', displayWeather);
 
