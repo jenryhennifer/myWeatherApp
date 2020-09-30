@@ -11,5 +11,9 @@
 }
 
 .tempDetails{
-    margin: 5px;
+    margin: 10px;
+}
+
+main{
+    display: none;
 }
