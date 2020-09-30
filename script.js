@@ -17,11 +17,11 @@ $(document).ready(function () {
         var chosenCity = $(this).attr('data-name')
         var weatherURL = "https://api.openweathermap.org/data/2.5/weather?q=" + chosenCity + "&appid=2b648f953cd9f9358d1ca478c103fe4c"
         var fiveDayForcast = 'https://api.openweathermap.org/data/2.5/forecast?q=' + chosenCity + '&appid=2b648f953cd9f9358d1ca478c103fe4c'
-        // var UVindex = 'http://api.openweathermap.org/data/2.5/uvi?lat='+latitude+'&lon='+longitude+'&appid=&appid=2b648f953cd9f9358d1ca478c103fe4c'
+        // var UVindex = 'https://api.openweathermap.org/data/2.5/uvi?lat=' + latitude + '&lon=' + longitude + '&appid=&appid=2b648f953cd9f9358d1ca478c103fe4c'
 
 
-        var latitude;
-        var longitude;
+        // var latitude;
+        // var longitude;
 
         $.ajax({
             url: weatherURL,
@@ -30,7 +30,9 @@ $(document).ready(function () {
 
         }).then(function (response) {
 
-            console.log(response);
+            // console.log(response);
+            // latitude = response.coord.lat;
+            // longitude = response.coord.lon;
 
             //city name
             var cityTitle = $('<div>').addClass('cityTitle pl-3');
@@ -64,16 +66,19 @@ $(document).ready(function () {
             windSpeed.text('Wind Speed: ' + response.wind.speed + ' MPH');
             $('#todayWeather').append(windSpeed);
         });
+
+        //five day forcast
         $.ajax({
             url: fiveDayForcast,
             method: "GET",
         }).then(function (response) {
-            console.log(response);
+            // console.log(response);
 
             for (var i = 0; i < response.list.length; i++) {
                 if (response.list[i].dt_txt.indexOf("15:00:00") !== -1) {
                     //creating a whole entire card
-                    var column = $('<div>').addClass('col-sm');
+                    var row = $('<div>').addClass('row');
+                    var column = $('<div>').addClass('col-sm-12');
                     var card = $('<div>').addClass('card text-white bg-info');
                     var info = $('<div>').addClass('card-body p-2');
                     var date = $("<h5>").addClass("card-title").text(new Date(response.list[i].dt_txt).toLocaleDateString());
@@ -87,17 +92,23 @@ $(document).ready(function () {
                     var fiveDayHumidity = $('<p>').addClass('humid');
                     fiveDayHumidity.text('Humidity: ' + response.list[i].main.humidity + '%');
 
-                    column.append(card.append(info.append(date, weatherImage, fiveDayTemperature, fiveDayHumidity)));
+                    row.append(column.append(card.append(info.append(date, weatherImage, fiveDayTemperature, fiveDayHumidity))));
 
 
-                    $('#weekWeather').append(column);
-                    $('.forecast').css('display','block')
+                    $('#weekWeather').append(row);
+                    $('.forecast').css('display', 'block')
 
                 }
             }
 
         });
         $('main').css('display', 'block');
+        $.ajax({
+            url: UVindex,
+            method: "GET",
+        }).then(function (response) {
+            console.log(response);
+        });
     }
 
 
@@ -123,8 +134,8 @@ $(document).ready(function () {
         var cityAdd = $('#cityName').val().trim();
         cityList.push(cityAdd);
         chosenCity = cityAdd;
-        
-        $('.forecast').css('display','none')
+
+        $('.forecast').css('display', 'none')
         displayCityButtons();
 
     })
