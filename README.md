@@ -34,6 +34,8 @@ https://openweathermap.org/
 
 ## Sample Image
 
+![image](img.png);
+
 
 <hr/>
 

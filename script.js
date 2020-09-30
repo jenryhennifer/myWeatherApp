@@ -44,7 +44,7 @@ $(document).ready(function () {
             var tempFahrenheit = (tempKelvin - 273.15) * 1.8 + 32;
             tempFahrenheit = tempFahrenheit.toFixed();
             var temperature = $('<div>').addClass('tempDetails');
-            temperature.text('Temperature: ' + tempFahrenheit + ' F°');
+            temperature.text('Temperature: ' + tempFahrenheit + ' °F');
             $('#todayWeather').append(temperature);
 
             //humidity
@@ -80,7 +80,7 @@ $(document).ready(function () {
 
                     var fiveDayTemperature = $('<p>').addClass('temp');
                     var fiveDayTempF = (((response.list[i].main.temp) - 273.15) * 1.8 + 32).toFixed();
-                    fiveDayTemperature.text('Temp: ' + fiveDayTempF + 'F°');
+                    fiveDayTemperature.text('Temp: ' + fiveDayTempF + ' °F');
                     var fiveDayHumidity = $('<p>').addClass('humid');
                     fiveDayHumidity.text('Humidity: ' + response.list[i].main.humidity + '%');
 
