@@ -78,7 +78,7 @@ $(document).ready(function () {
                 if (response.list[i].dt_txt.indexOf("15:00:00") !== -1) {
                     //creating a whole entire card
                     var row = $('<div>').addClass('row');
-                    var column = $('<div>').addClass('col-sm-12');
+                    var column = $('<div>').addClass('col-md m-2');
                     var card = $('<div>').addClass('card text-white bg-info');
                     var info = $('<div>').addClass('card-body p-2');
                     var date = $("<h5>").addClass("card-title").text(new Date(response.list[i].dt_txt).toLocaleDateString());
@@ -103,12 +103,7 @@ $(document).ready(function () {
 
         });
         $('main').css('display', 'block');
-        $.ajax({
-            url: UVindex,
-            method: "GET",
-        }).then(function (response) {
-            console.log(response);
-        });
+
     }
 
 
