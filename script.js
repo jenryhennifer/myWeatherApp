@@ -10,12 +10,13 @@ $(document).ready(function () {
     function displayWeather() {
         $('#todayWeather').empty(); //clears information every time a new city is loaded
         $('.card-body').empty();
+        $('#weekWeather').empty();
 
 
         // var chosenCity = $('#cityName').val();
         var chosenCity = $(this).attr('data-name')
         var weatherURL = "https://api.openweathermap.org/data/2.5/weather?q=" + chosenCity + "&appid=2b648f953cd9f9358d1ca478c103fe4c"
-        var fiveDayForcast = 'https://api.openweathermap.org/data/2.5/forecast?q='+ chosenCity +'&appid=2b648f953cd9f9358d1ca478c103fe4c'
+        var fiveDayForcast = 'https://api.openweathermap.org/data/2.5/forecast?q=' + chosenCity + '&appid=2b648f953cd9f9358d1ca478c103fe4c'
         // var UVindex = 'http://api.openweathermap.org/data/2.5/uvi?lat='+latitude+'&lon='+longitude+'&appid=&appid=2b648f953cd9f9358d1ca478c103fe4c'
 
 
@@ -32,8 +33,7 @@ $(document).ready(function () {
             console.log(response);
 
             //city name
-            var cityTitle = $('<div>');
-            cityTitle.addClass('cityTitle');
+            var cityTitle = $('<div>').addClass('cityTitle');
             cityTitle.text(response.name);
             var day = $('<h3>');
             day.text(currentDay);
@@ -44,8 +44,7 @@ $(document).ready(function () {
             var tempKelvin = response.main.temp;
             var tempFahrenheit = (tempKelvin - 273.15) * 1.8 + 32;
             tempFahrenheit = tempFahrenheit.toFixed();
-            var temperature = $('<div>');
-            temperature.addClass('tempDetails');
+            var temperature = $('<div>').addClass('tempDetails');
             temperature.text('Temperature: ' + tempFahrenheit + ' F°');
             $('#todayWeather').append(temperature);
 
@@ -56,37 +55,39 @@ $(document).ready(function () {
             $('#todayWeather').append(humidity);
 
             //wind speed
-            var windSpeed = $('<div>');
-            windSpeed.addClass('tempDetails');
+            var windSpeed = $('<div>').addClass('tempDetails');
             windSpeed.text('Wind Speed: ' + response.wind.speed + ' MPH');
             $('#todayWeather').append(windSpeed);
         });
         $.ajax({
             url: fiveDayForcast,
             method: "GET",
-        }).then(function (response){
+        }).then(function (response) {
             console.log(response);
 
-            var dateOne = $('<div>');
-            dateOne = moment().add(1, 'days').format('l');
-            
-            $('#dayOne').append(dateOne);
+            for (var i = 0; i < response.list.length; i++) {
+                if (response.list[i].dt_txt.indexOf("12:00:00") !== -1) {
+                    //creating a whole entire card
+                    var column = $('<div>').addClass('col-sm-2');
+                    var card = $('<div>').addClass('card text-white bg-primary');
+                    var info = $('<div>').addClass('card-body p-2');
+                    var date = $("<h5>").addClass("card-title").text(new Date(response.list[i].dt_txt).toLocaleDateString());
 
-            var dateTwo = $('<div>');
-            dateTwo = moment().add(2, 'days').format('l');
-            $('#dayTwo').append(dateTwo);
+                    //adds the image icon from the data onto the screen 
+                    var weatherImage = $('<img>').attr("src", "http://openweathermap.org/img/w/" + response.list[i].weather[0].icon + ".png");
 
-            var dateThree = $('<div>');
-            dateThree = moment().add(3, 'days').format('l');
-            $('#dayThree').append(dateThree);
+                    var fiveDayTemperature = $('<p>').addClass('temp');
+                    var fiveDayTempF = (((response.list[i].main.temp) - 273.15) * 1.8 + 32).toFixed();
+                    fiveDayTemperature.text(fiveDayTempF);
+                    var fiveDayHumidity = $('<p>').addClass('humid');
+                    fiveDayHumidity.text(response.list[i].main.humidity);
 
-            var dateFour = $('<div>');
-            dateFour = moment().add(4, 'days').format('l');
-            $('#dayFour').append(dateFour);
+                    column.append(card.append(info.append(date, weatherImage, fiveDayTemperature, fiveDayHumidity)));
 
-            var dateFive = $('<div>');
-            dateFive = moment().add(5, 'days').format('l');
-            $('#dayFive').append(dateFive);
+
+                    $('#weekWeather').append(column);
+                }
+            }
 
         });
         $('main').css('display', 'block');
