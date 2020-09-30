@@ -15,7 +15,7 @@
     <script type="text/javascript"></script>
     <script src="script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-
+    <!-- header -->
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
             <h1 class="display-4">Weather Dashboard</h1>
@@ -23,32 +23,30 @@
     </div>
     <div class='row'>
         <!-- search bar/previously searched cities -->
-        <aside class='col-sm-4 bg-light'>
+        <aside class='col-sm-4 bg-light ml-5'>
             <h5>Search for a City:</h5>
             <form class="form-inline">
                 <div class="form-group mx-sm-3 mb-2 mr-2">
                     <input type="text" class="form-control" id="cityName" placeholder="City Name">
-                    <button type="submit" class="btn btn-primary" id='citySearchButton'><img
+                    <button type="submit" class="btn btn-info" id='citySearchButton'><img
                             src='https://lh3.googleusercontent.com/proxy/hQ6xyL69aVjk2hQX4zFDh9iUY-sBAxcz-Ctu-KF9iePTlxY7QsRkjCGQ3q43o47y59f3CEmCs9pogBdfj4CeeE5VoV2JQK0xZPEzYmMQ88ddCqRiS-lPMi5Fll2q2DZyJwM4fY6x41sNNhDaeriPeNYSSFp2r-EBL9mF0Uq5VFuY8VLK3Q'
-                            height='50px'></button>
+                            height='25px'></button>
                 </div>
             </form>
             <div id='citiesListed' class='text-center'></div>
         </aside>
         <!-- information pop up for the day/week weather -->
         <main class='col-sm-7'>
-            <div class="card">
+            <div class="card bg-light">
                 <div id="todayWeather"></div>
             </div>
-            <div class='row'>
+            <div class='row ml-3 forecast'>
                 <h5 class='pt-3'>5 Day Forcast:</h5>
-            
-                <div class='row' id='weekWeather'>
+                <div class='row col-md-12 mw-100' id='weekWeather'>
     
                 </div>
             </div>
         </main>
-
     </div>
 
 </body>

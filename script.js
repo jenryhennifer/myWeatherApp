@@ -33,12 +33,17 @@ $(document).ready(function () {
             console.log(response);
 
             //city name
-            var cityTitle = $('<div>').addClass('cityTitle');
+            var cityTitle = $('<div>').addClass('cityTitle pl-3');
             cityTitle.text(response.name);
-            var day = $('<h3>');
+            var day = $('<h3>').addClass('pl-3');
             day.text(currentDay);
             $('#todayWeather').append(cityTitle);
             $('#todayWeather').append(day);
+
+            //weather icon
+            var dayIcon = $('<img>').attr("src", "http://openweathermap.org/img/wn/" + response.weather[0].icon + ".png");
+            $('#todayWeather').append(dayIcon);
+
 
             //temperature
             var tempKelvin = response.main.temp;
@@ -66,45 +71,34 @@ $(document).ready(function () {
             console.log(response);
 
             for (var i = 0; i < response.list.length; i++) {
-                if (response.list[i].dt_txt.indexOf("12:00:00") !== -1) {
+                if (response.list[i].dt_txt.indexOf("15:00:00") !== -1) {
                     //creating a whole entire card
-                    var column = $('<div>').addClass('col-sm-2');
-                    var card = $('<div>').addClass('card text-white bg-primary');
+                    var column = $('<div>').addClass('col-sm');
+                    var card = $('<div>').addClass('card text-white bg-info');
                     var info = $('<div>').addClass('card-body p-2');
                     var date = $("<h5>").addClass("card-title").text(new Date(response.list[i].dt_txt).toLocaleDateString());
 
                     //adds the image icon from the data onto the screen 
-                    var weatherImage = $('<img>').attr("src", "http://openweathermap.org/img/w/" + response.list[i].weather[0].icon + ".png");
+                    var weatherImage = $('<img>').attr("src", "http://openweathermap.org/img/wn/" + response.list[i].weather[0].icon + ".png");
 
                     var fiveDayTemperature = $('<p>').addClass('temp');
                     var fiveDayTempF = (((response.list[i].main.temp) - 273.15) * 1.8 + 32).toFixed();
-                    fiveDayTemperature.text(fiveDayTempF);
+                    fiveDayTemperature.text('Temp: ' + fiveDayTempF + 'F°');
                     var fiveDayHumidity = $('<p>').addClass('humid');
-                    fiveDayHumidity.text(response.list[i].main.humidity);
+                    fiveDayHumidity.text('Humidity: ' + response.list[i].main.humidity + '%');
 
                     column.append(card.append(info.append(date, weatherImage, fiveDayTemperature, fiveDayHumidity)));
 
 
                     $('#weekWeather').append(column);
+                    $('.forecast').css('display','block')
+
                 }
             }
 
         });
         $('main').css('display', 'block');
     }
-
-    // $.ajax({
-    //     url: fiveDayForcast,
-    //     method: "GET",
-
-    // }).then(function(response){
-
-    // console.log(response)
-
-    // })
-
-
-
 
 
     //added city names go here and make buttons
@@ -128,8 +122,9 @@ $(document).ready(function () {
 
         var cityAdd = $('#cityName').val().trim();
         cityList.push(cityAdd);
-        chosenCity = cityAdd
-
+        chosenCity = cityAdd;
+        
+        $('.forecast').css('display','none')
         displayCityButtons();
 
     })
