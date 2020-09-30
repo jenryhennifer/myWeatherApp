@@ -1,5 +1,4 @@
-# myWeatherApp
-a weather app using an API
+# Weather Dashboard
 
 ## Installation
 
@@ -46,53 +45,54 @@ The purpose of this project was to create a weather application that tells the w
 We used the openweathermap.org API for the data inside this project. I created my own API key for this webpage to access the information. The code below shows how we imported the endpoint of the API into our javascript file and used ajax to access the data.
 
 ```
-        var weatherURL = "https://api.openweathermap.org/data/2.5/weather?q=" + chosenCity + "&appid=2b648f953cd9f9358d1ca478c103fe4c"
+    var weatherURL = "https://api.openweathermap.org/data/2.5/weather?q=" + chosenCity + "&appid=2b648f953cd9f9358d1ca478c103fe4c"
 
-        $.ajax({
-            url: weatherURL,
-            method: "GET",
-            dataType: 'json'
+    $.ajax({
+        url: weatherURL,
+        method: "GET",
+        dataType: 'json'
 
-        }).then(function (response) {
+    }).then(function (response) {
             ...
-        }
+    }
 ```
 This API allowed us to access various information about weather in various cities. For example, the feels like temperature, the temperature max/minimum, weather icon, humidity, pressure, sunrise/sunset and many other features. 
 
 ```
-            var windSpeed = $('<div>').addClass('tempDetails');
-            windSpeed.text('Wind Speed: ' + response.wind.speed + ' MPH');
-            $('#todayWeather').append(windSpeed);
+    var windSpeed = $('<div>').addClass('tempDetails');
+    windSpeed.text('Wind Speed: ' + response.wind.speed + ' MPH');
+    $('#todayWeather').append(windSpeed);
 ```
 
 In the code below, it shows how I overcame my struggle with dynamically programming and created each element for the 5 day forcast individually. 
 
 ```
-            for (var i = 0; i < response.list.length; i++) {
-                if (response.list[i].dt_txt.indexOf("15:00:00") !== -1) {
-                    //creating a whole entire card
-                    var row = $('<div>').addClass('row');
-                    var column = $('<div>').addClass('col-sm-12');
-                    var card = $('<div>').addClass('card text-white bg-info');
-                    var info = $('<div>').addClass('card-body p-2');
-                    var date = $("<h5>").addClass("card-title").text(new Date(response.list[i].dt_txt).toLocaleDateString());
+    for (var i = 0; i < response.list.length; i++) {
+        if (response.list[i].dt_txt.indexOf("15:00:00") !== -1) {
+            //creating a whole entire card
+            var row = $('<div>').addClass('row');
+            var column = $('<div>').addClass('col-sm-12');
+            var card = $('<div>').addClass('card text-white bg-info');
+            var info = $('<div>').addClass('card-body p-2');
+            var date = $("<h5>").addClass("card-title").text(new Date(response.list[i].dt_txt).toLocaleDateString());
 
-                    //adds the image icon from the data onto the screen 
-                    var weatherImage = $('<img>').attr("src", "http://openweathermap.org/img/wn/" + response.list[i].weather[0].icon + ".png");
+            //adds the image icon from the data onto the screen 
+            var weatherImage = $('<img>').attr("src", "http://openweathermap.org/img/wn/" + response.list[i].weather[0].icon + ".png");
 
-                    var fiveDayTemperature = $('<p>').addClass('temp');
-                    var fiveDayTempF = (((response.list[i].main.temp) - 273.15) * 1.8 + 32).toFixed();
-                    fiveDayTemperature.text('Temp: ' + fiveDayTempF + 'F°');
-                    var fiveDayHumidity = $('<p>').addClass('humid');
-                    fiveDayHumidity.text('Humidity: ' + response.list[i].main.humidity + '%');
+            var fiveDayTemperature = $('<p>').addClass('temp');
+            var fiveDayTempF = (((response.list[i].main.temp) - 273.15) * 1.8 + 32).toFixed();
+            fiveDayTemperature.text('Temp: ' + fiveDayTempF + 'F°');
+            var fiveDayHumidity = $('<p>').addClass('humid');
+            fiveDayHumidity.text('Humidity: ' + response.list[i].main.humidity + '%');
 
-                    row.append(column.append(card.append(info.append(date, weatherImage, fiveDayTemperature, fiveDayHumidity))));
+            row.append(column.append(card.append(info.append(date, weatherImage, fiveDayTemperature, fiveDayHumidity))));
 
 
-                    $('#weekWeather').append(row);
-                    $('.forecast').css('display', 'block')
+            $('#weekWeather').append(row);
+            $('.forecast').css('display', 'block')
 
-                }
+        }
+    }
 ```
 
 <hr/>
